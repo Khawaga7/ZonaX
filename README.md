@@ -1,56 +1,91 @@
-# [cite_start]🚖 ZonaX - Smart Fleet Intelligence Platform (SFIP) [cite: 3]
-
-![Flutter Version](https://img.shields.io/badge/Flutter-3.x-blue.svg)
-![Architecture](https://img.shields.io/badge/Architecture-Clean_Architecture-success.svg)
-![State Management](https://img.shields.io/badge/State_Management-BLoC%2FCubit-orange.svg)
-![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey.svg)
-
-> [cite_start]An Al-powered mobile application designed to optimize taxi and fleet driver operations through predictive analytics, real-time demand mapping, and intelligent decision support[cite: 6].
-
----
-
-## 📑 Table of Contents
-1. [About The Project](#-about-the-project)
-2. [Core Features](#-core-features)
-3. [Architecture & Folder Structure](#-architecture--folder-structure)
-4. [Tech Stack](#-tech-stack)
-5. [Getting Started](#-getting-started)
-6. [Team & Authors](#-team--authors)
-
----
-
-## 📌 About The Project
-[cite_start]**ZonaX** leverages machine learning, geospatial analysis, and voice-first interaction to provide drivers with actionable insights that maximize earnings while ensuring safe, hands-free operation[cite: 7]. [cite_start]It aims to increase driver earnings by 15-25% through intelligent zone recommendations [cite: 25] [cite_start]and maintain functionality during connectivity loss through offline edge computing[cite: 28].
-
-*(📸 Note: Add a high-quality mockup or GIF of your app's main heatmap screen here later)*
-
----
-
-## ✨ Core Features
-* [cite_start]**🗺️ Dynamic Predictive Heatmaps:** Visualize real-time and forecasted demand on an interactive map[cite: 40].
-* [cite_start]**🎙️ Voice-First Smart Assistant:** Enable hands-free interaction using natural language processing[cite: 35].
-* [cite_start]**🧠 Explainable Insight Cards:** Provide transparent explanations for Al recommendations[cite: 48].
-* [cite_start]**📶 Offline Edge Mode:** Maintain critical functionality during connectivity loss[cite: 54].
-* [cite_start]**☕ Smart Break Timer:** Recommend optimal break times based on demand patterns[cite: 144].
-* [cite_start]**📊 Business Intelligence Dashboard:** Track and visualize daily earnings progress [cite: 150] [cite_start]and calculate driver payout[cite: 129].
-
----
-
-## 🏗️ Architecture & Folder Structure
-[cite_start]This project strictly follows **Clean Architecture** principles with clear Presentation, Domain, and Data layers [cite: 277, 282, 285] to ensure scalability, testability, and separation of concerns.
-
-```text
 lib/
 │
-├── core/                       # Shared utilities, network client, and DI (ServiceLocator)
-│   ├── network/                # DioClient, WebSocketManager, AuthInterceptor
-│   ├── storage/                # LocalDataSourceImpl, SecureStorage
-│   └── services/               # GetIt setup, AppAnalytics, Crashlytics
-│
-├── features/                   # Feature-driven modules
+├── core/                                 # 1. الطبقة الأساسية (البنية التحتية والخدمات العامة)
+│   ├── network/                          # ملفات الاتصال بالسيرفر
+│   │   ├── remote_data_source_impl.dart  # (لإرسال واستقبال بيانات الـ API)
+│   │   ├── websocket_manager.dart        # (للاتصال اللحظي للـ Heatmaps)
+│   │   ├── auth_interceptor.dart         # (لحقن التوكن في الطلبات)
+│   │   └── circuit_breaker_handler.dart  # (للتعامل مع أعطال السيرفر بذكاء)
 │   │
-│   ├── auth/                   # User authentication & profile management
-│   ├── map_intelligence/       # GIS logic, ZoneModels, InsightGenerator, Geofencing
-│   └── trip_management/        # Trip logs, offline sync orchestration (TripRepositoryImpl)
+│   ├── storage/                          # ملفات التخزين المحلي
+│   │   ├── local_data_source_impl.dart   # (قاعدة بيانات Hive للـ Offline Mode)
+│   │   ├── secure_storage_service.dart   # (لتخزين التوكنز بأمان)
+│   │   ├── file_resource_manager.dart    # (لإدارة ملفات الخرائط المحملة محلياً)
+│   │   └── encryption_service.dart       # (لتشفير البيانات الحساسة)
+│   │
+│   ├── services/                         # الخدمات المشتركة (تعمل في الخلفية)
+│   │   ├── service_locator.dart          # (نقطة تجمع الـ Dependency Injection)
+│   │   ├── geofencing_service.dart       # (للتأكد من دخول السائق منطقة مزدحمة)
+│   │   ├── local_notification_handler.dart # (لإرسال إشعارات الراحة والطلب)
+│   │   ├── app_analytics.dart            # (لتتبع سلوك المستخدم)
+│   │   └── crashlytics_service.dart      # (لتسجيل الأخطاء والانهيارات)
+│   │
+│   └── utils/                            # أدوات مساعدة
+│       ├── geo_json_parser.dart          # (لتحويل خرائط نيويورك لأشكال هندسية)
+│       └── data_integrity_guard.dart     # (للتحقق من دقة الـ GPS والبيانات)
 │
-└── main.dart                   # Application entry point
+├── features/                             # 2. طبقة الخصائص (مقسمة حسب وظائف التطبيق)
+│   │
+│   ├── auth/                             # خاصية: الحسابات والمصادقة
+│   │   ├── data/
+│   │   │   └── auth_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── user_account.dart         # (Entity: تفاصيل حساب السائق)
+│   │   │   └── auth_service.dart         # (عمليات تسجيل الدخول والخروج)
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   └── user_bloc.dart
+│   │       └── screens/
+│   │           └── login_screen.dart
+│   │
+│   ├── map_intelligence/                 # خاصية: الخرائط والذكاء الاصطناعي
+│   │   ├── data/
+│   │   │   └── map_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── zone_model.dart           # (Entity: بيانات المنطقة وتوقعها)
+│   │   │   └── insight_generator.dart    # (توليد الشرح النصي لتوقعات الـ AI)
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── map_cubit.dart
+│   │       │   └── map_state_provider.dart # (حالة التكبير والعلامات)
+│   │       ├── theme/
+│   │       │   └── map_style_manager.dart  # (الوضع المظلم ووضع توفير الطاقة)
+│   │       └── screens/
+│   │           └── heatmap_screen.dart     # (الشاشة الرئيسية)
+│   │
+│   ├── trip_management/                  # خاصية: الرحلات والأرباح
+│   │   ├── data/
+│   │   │   ├── trip_repository_impl.dart   # (المنظم لحفظ الرحلات الأوفلاين والمزامنة)
+│   │   │   └── offline_sync_manager.dart   # (مزامنة الرحلات عند عودة الإنترنت)
+│   │   ├── domain/
+│   │   │   ├── trip_entity.dart            # (Entity: تفاصيل الرحلة)
+│   │   │   ├── fare_breakdown_generator.dart # (حساب الأجرة وخصم عمولة الـ 20%)
+│   │   │   └── dispatch_rule.dart          # (قواعد التوجيه وتوزيع الرحلات)
+│   │   └── presentation/
+│   │       └── screens/
+│   │           └── trip_history_screen.dart
+│   │
+│   ├── driver_performance/               # خاصية: أداء السائق والتحليلات
+│   │   ├── domain/
+│   │   │   ├── performance_monitor.dart    # (مراقبة الربحية والأداء العام)
+│   │   │   └── achievement_manager.dart    # (نظام النقاط والـ Leaderboard)
+│   │   └── presentation/
+│   │       └── screens/
+│   │           └── dashboard_screen.dart
+│   │
+│   ├── voice_assistant/                  # خاصية: المساعد الصوتي
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   └── voice_assistant_bloc.dart # (لإدارة تسجيل ومعالجة الصوت)
+│   │       └── widgets/
+│   │           └── voice_button_widget.dart
+│   │
+│   └── support_and_training/             # خاصية: الدعم الفني والتدريب
+│       ├── domain/
+│       │   ├── support_manager.dart        # (الأسئلة الشائعة وتذاكر الدعم)
+│       │   └── tutorial_controller.dart    # (إدارة تشغيل الفيديوهات التعليمية)
+│       └── presentation/
+│           └── screens/
+│               └── help_center_screen.dart
+│
+└── main.dart                             # نقطة انطلاق التطبيق (يتم فيها استدعاء ServiceLocator)
