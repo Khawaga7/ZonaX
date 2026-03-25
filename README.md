@@ -1,4 +1,4 @@
-# [cite_start]🚖 ZonaX - Smart Fleet Intelligence Platform (SFIP) [cite: 3]
+**# [cite_start]🚖 ZonaX - Smart Fleet Intelligence Platform (SFIP) [cite: 3]
 
 ![Flutter Version](https://img.shields.io/badge/Flutter-3.x-blue.svg)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean_Architecture-success.svg)
@@ -39,7 +39,7 @@
 ## 🏗️ Architecture & Folder Structure
 [cite_start]This project strictly follows **Clean Architecture** principles with clear Presentation, Domain, and Data layers [cite: 277, 282, 285] to ensure scalability, testability, and separation of concerns.
 
-```text
+```text**
 
 lib/
 │
