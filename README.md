@@ -27,12 +27,12 @@
 ---
 
 ## ✨ Core Features
-🗺️ Dynamic Predictive Heatmaps:** Visualize real-time and forecasted demand on an interactive map.
-🎙️ Voice-First Smart Assistant:** Enable hands-free interaction using natural language processing.
-🧠 Explainable Insight Cards:** Provide transparent explanations for AI recommendations.
-📶 Offline Edge Mode:** Maintain critical functionality during connectivity loss.
-☕ Smart Break Timer:** Recommend optimal break times based on demand patterns.
-📊 Business Intelligence Dashboard:** Track and visualize daily earnings progress and calculate driver payout.
+* 🗺️ Dynamic Predictive Heatmaps:** Visualize real-time and forecasted demand on an interactive map.
+* 🎙️ Voice-First Smart Assistant:** Enable hands-free interaction using natural language processing.
+* 🧠 Explainable Insight Cards:** Provide transparent explanations for AI recommendations.
+* 📶 Offline Edge Mode:** Maintain critical functionality during connectivity loss.
+* ☕ Smart Break Timer:** Recommend optimal break times based on demand patterns.
+* 📊 Business Intelligence Dashboard:** Track and visualize daily earnings progress and calculate driver payout.
 
 ---
 
