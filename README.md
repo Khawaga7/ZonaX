@@ -44,7 +44,7 @@ lib/
 │
 ├── core/                                 # 1. Core Layer (Infrastructure & Shared Services)
 │   ├── network/                          # Network communication
-│   │   ├── remote_data_source_impl.dart  # (API data fetching)
+│   │   ├── remote_data_source_impl.dart  # (API data fetching using Dio)
 │   │   ├── websocket_manager.dart        # (Real-time connection for Heatmaps)
 │   │   ├── auth_interceptor.dart         # (Token injection)
 │   │   └── circuit_breaker_handler.dart  # (Handling server failures gracefully)
@@ -55,12 +55,21 @@ lib/
 │   │   ├── file_resource_manager.dart    # (Managing local map files)
 │   │   └── encryption_service.dart       # (Encrypting sensitive data)
 │   │
+│   ├── errors/                           # Error handling
+│   │   ├── exceptions.dart               # (ServerException, CacheException)
+│   │   └── failures.dart                 # (ServerFailure, NetworkFailure)
+│   │
 │   ├── services/                         # Shared background services
 │   │   ├── service_locator.dart          # (Dependency Injection setup - GetIt)
 │   │   ├── geofencing_service.dart       # (Detecting when a driver enters a hotspot)
 │   │   ├── local_notification_handler.dart # (Break and demand alerts)
 │   │   ├── app_analytics.dart            # (User behavior tracking)
 │   │   └── crashlytics_service.dart      # (Error and crash reporting)
+│   │
+│   ├── theme/                            # Design System
+│   │   ├── app_colors.dart               # (Primary, Background, Semantic colors)
+│   │   ├── app_typography.dart           # (Fonts and text styles)
+│   │   └── app_dimensions.dart           # (Paddings and margins)
 │   │
 │   └── utils/                            # Helper utilities
 │       ├── geo_json_parser.dart          # (Parsing NYC maps into geometries)
@@ -70,62 +79,67 @@ lib/
 │   │
 │   ├── auth/                             # Feature: Authentication & Accounts
 │   │   ├── data/
+│   │   │   ├── models/                   # (UserModel)
 │   │   │   └── auth_repository_impl.dart
 │   │   ├── domain/
-│   │   │   ├── user_account.dart         # (Entity: Driver account details)
-│   │   │   └── auth_service.dart         # (Login/Logout operations)
+│   │   │   ├── entities/                 # (UserEntity)
+│   │   │   ├── repositories/             # (AuthRepository Contract)
+│   │   │   └── usecases/                 # (LoginUseCase, LogoutUseCase)
 │   │   └── presentation/
 │   │       ├── bloc/
-│   │       │   └── user_bloc.dart
+│   │       │   └── auth_bloc.dart
 │   │       └── screens/
 │   │           └── login_screen.dart
 │   │
 │   ├── map_intelligence/                 # Feature: Maps & AI
 │   │   ├── data/
+│   │   │   ├── models/                   # (ZoneModel)
 │   │   │   └── map_repository_impl.dart
 │   │   ├── domain/
-│   │   │   ├── zone_model.dart           # (Entity: Zone data and forecasts)
-│   │   │   └── insight_generator.dart    # (Generating text for AI explanations)
+│   │   │   ├── entities/                 # (ZoneEntity)
+│   │   │   ├── repositories/             # (MapRepository Contract)
+│   │   │   └── usecases/                 # (GetHeatmapUseCase, GenerateInsightUseCase)
 │   │   └── presentation/
 │   │       ├── bloc/
 │   │       │   ├── map_cubit.dart
-│   │       │   └── map_state_provider.dart # (Zoom state and markers)
-│   │       ├── theme/
-│   │       │   └── map_style_manager.dart  # (Dark mode & Battery saver mode)
+│   │       │   └── map_state.dart
+│   │       ├── widgets/                  # (InsightCardWidget, LegendWidget)
 │   │       └── screens/
-│   │           └── heatmap_screen.dart     # (Main screen)
+│   │           └── heatmap_screen.dart
 │   │
 │   ├── trip_management/                  # Feature: Trips & Earnings
 │   │   ├── data/
-│   │   │   ├── trip_repository_impl.dart   # (Orchestrator for offline sync)
-│   │   │   └── offline_sync_manager.dart   # (Syncing trips when online)
+│   │   │   ├── models/                   # (TripModel)
+│   │   │   ├── trip_repository_impl.dart 
+│   │   │   └── offline_sync_manager.dart # (Syncing trips when online)
 │   │   ├── domain/
-│   │   │   ├── trip_entity.dart            # (Entity: Trip details)
-│   │   │   ├── fare_breakdown_generator.dart # (Calculating fare and 20% commission)
-│   │   │   └── dispatch_rule.dart          # (Routing and dispatching rules)
+│   │   │   ├── entities/                 # (TripEntity)
+│   │   │   ├── repositories/             # (TripRepository Contract)
+│   │   │   └── usecases/                 # (SaveTripOfflineUseCase, SyncTripsUseCase, CalculateFareUseCase)
 │   │   └── presentation/
+│   │       ├── bloc/                     # (TripBloc)
 │   │       └── screens/
 │   │           └── trip_history_screen.dart
 │   │
 │   ├── driver_performance/               # Feature: Driver Performance & Analytics
-│   │   ├── domain/
-│   │   │   ├── performance_monitor.dart    # (Monitoring profitability and performance)
-│   │   │   └── achievement_manager.dart    # (Points system & Leaderboard)
+│   │   ├── data/                         # (PerformanceRepositoryImpl)
+│   │   ├── domain/                       # (GetDailyEarningsUseCase)
 │   │   └── presentation/
 │   │       └── screens/
 │   │           └── dashboard_screen.dart
 │   │
 │   ├── voice_assistant/                  # Feature: Voice Assistant
+│   │   ├── data/                         # (VoiceRepositoryImpl - Speech to Text)
+│   │   ├── domain/                       # (ProcessVoiceCommandUseCase)
 │   │   └── presentation/
 │   │       ├── bloc/
-│   │       │   └── voice_assistant_bloc.dart # (Handling voice recording and processing)
+│   │       │   └── voice_assistant_bloc.dart
 │   │       └── widgets/
 │   │           └── voice_button_widget.dart
 │   │
 │   └── support_and_training/             # Feature: Support & Training
-│       ├── domain/
-│       │   ├── support_manager.dart        # (FAQs and support tickets)
-│       │   └── tutorial_controller.dart    # (Managing tutorial videos)
+│       ├── data/                         # (SupportRepositoryImpl)
+│       ├── domain/                       # (GetFaqsUseCase)
 │       └── presentation/
 │           └── screens/
 │               └── help_center_screen.dart
