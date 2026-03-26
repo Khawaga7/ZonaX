@@ -79,69 +79,66 @@ lib/
 │   │
 │   ├── auth/                             # Feature: Authentication & Accounts
 │   │   ├── data/
-│   │   │   ├── models/                   # (UserModel)
+│   │   │   ├── models/                   
 │   │   │   └── auth_repository_impl.dart
 │   │   ├── domain/
-│   │   │   ├── entities/                 # (UserEntity)
-│   │   │   ├── repositories/             # (AuthRepository Contract)
-│   │   │   └── usecases/                 # (LoginUseCase, LogoutUseCase)
-│   │   └── presentation/
-│   │       ├── bloc/
-│   │       │   └── auth_bloc.dart
-│   │       └── screens/
-│   │           └── login_screen.dart
+│   │   │   ├── entities/                 
+│   │   │   ├── repositories/             
+│   │   │   └── usecases/                 
+│   │   └── presentation/                 
+│   │       ├── bloc/                     # (AuthBloc)
+│   │       ├── screens/                  # (LoginScreen)
+│   │       └── widgets/                  # (AuthTextFieldWidget)
 │   │
 │   ├── map_intelligence/                 # Feature: Maps & AI
 │   │   ├── data/
-│   │   │   ├── models/                   # (ZoneModel)
+│   │   │   ├── models/                   
 │   │   │   └── map_repository_impl.dart
 │   │   ├── domain/
-│   │   │   ├── entities/                 # (ZoneEntity)
-│   │   │   ├── repositories/             # (MapRepository Contract)
-│   │   │   └── usecases/                 # (GetHeatmapUseCase, GenerateInsightUseCase)
-│   │   └── presentation/
-│   │       ├── bloc/
-│   │       │   ├── map_cubit.dart
-│   │       │   └── map_state.dart
-│   │       ├── widgets/                  # (InsightCardWidget, LegendWidget)
-│   │       └── screens/
-│   │           └── heatmap_screen.dart
+│   │   │   ├── entities/                 
+│   │   │   ├── repositories/             
+│   │   │   └── usecases/                 
+│   │   └── presentation/                 
+│   │       ├── bloc/                     # (MapCubit, MapState)
+│   │       ├── screens/                  # (HeatmapScreen)
+│   │       └── widgets/                  # (InsightCardWidget, LegendWidget)
 │   │
 │   ├── trip_management/                  # Feature: Trips & Earnings
 │   │   ├── data/
-│   │   │   ├── models/                   # (TripModel)
+│   │   │   ├── models/                   
 │   │   │   ├── trip_repository_impl.dart 
-│   │   │   └── offline_sync_manager.dart # (Syncing trips when online)
+│   │   │   └── offline_sync_manager.dart 
 │   │   ├── domain/
-│   │   │   ├── entities/                 # (TripEntity)
-│   │   │   ├── repositories/             # (TripRepository Contract)
-│   │   │   └── usecases/                 # (SaveTripOfflineUseCase, SyncTripsUseCase, CalculateFareUseCase)
-│   │   └── presentation/
+│   │   │   ├── entities/                 
+│   │   │   ├── repositories/             
+│   │   │   └── usecases/                 
+│   │   └── presentation/                 
 │   │       ├── bloc/                     # (TripBloc)
-│   │       └── screens/
-│   │           └── trip_history_screen.dart
+│   │       ├── screens/                  # (TripHistoryScreen)
+│   │       └── widgets/                  # (TripCardWidget)
 │   │
 │   ├── driver_performance/               # Feature: Driver Performance & Analytics
-│   │   ├── data/                         # (PerformanceRepositoryImpl)
-│   │   ├── domain/                       # (GetDailyEarningsUseCase)
-│   │   └── presentation/
-│   │       └── screens/
-│   │           └── dashboard_screen.dart
+│   │   ├── data/                         
+│   │   ├── domain/                       
+│   │   └── presentation/                 
+│   │       ├── bloc/                     # (PerformanceBloc)
+│   │       ├── screens/                  # (DashboardScreen)
+│   │       └── widgets/                  # (EarningsChartWidget)
 │   │
 │   ├── voice_assistant/                  # Feature: Voice Assistant
-│   │   ├── data/                         # (VoiceRepositoryImpl - Speech to Text)
-│   │   ├── domain/                       # (ProcessVoiceCommandUseCase)
-│   │   └── presentation/
-│   │       ├── bloc/
-│   │       │   └── voice_assistant_bloc.dart
-│   │       └── widgets/
-│   │           └── voice_button_widget.dart
+│   │   ├── data/                         
+│   │   ├── domain/                       
+│   │   └── presentation/               
+│   │       ├── bloc/                     # (VoiceAssistantBloc)
+│   │       ├── screens/                  # (VoiceAssistantOverlay)
+│   │       └── widgets/                  # (VoiceButtonWidget)
 │   │
 │   └── support_and_training/             # Feature: Support & Training
-│       ├── data/                         # (SupportRepositoryImpl)
-│       ├── domain/                       # (GetFaqsUseCase)
-│       └── presentation/
-│           └── screens/
-│               └── help_center_screen.dart
+│       ├── data/                         
+│       ├── domain/                       
+│       └── presentation/                 
+│           ├── bloc/                     # (SupportBloc)
+│           ├── screens/                  # (HelpCenterScreen)
+│           └── widgets/                  # (FaqItemWidget)
 │
 └── main.dart                             # Application Entry Point (Calls ServiceLocator)
