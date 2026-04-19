@@ -1,4 +1,4 @@
-# 🚖 ZonaX - Smart Fleet Intelligence Platform (SFIP)
+# 🚖 ZonaX - Smart Fleet Intelligence Platform - SFIP
 
 ![Flutter Version](https://img.shields.io/badge/Flutter-3.x-blue.svg)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean_Architecture-success.svg)
